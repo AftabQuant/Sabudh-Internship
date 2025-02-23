@@ -3,13 +3,12 @@ class Node:
         self.data = data
         self.next = None
 
-def delete_middle_linkedlist(head):
-    slow = fast = head
-    while fast.next and fast.next.next:
-        slow = slow.next
-        fast = fast.next.next
-    slow.next = slow.next.next
-    return head
+def reverse_linkedlist(head):
+    if head is None or head.next is None: return head
+    new_head = reverse_linkedlist(head.next)
+    head.next.next = head
+    head.next = None
+    return new_head
 
 def create_linked_list(arr):
     if not arr:
@@ -27,9 +26,9 @@ def print_linkedlist(head):
         head = head.next
     print()
 
-a = create_linked_list([1,2,3,4,5,6])
-b = create_linked_list([2,4,6,7,5,1])
-a = delete_middle_linkedlist(a)
-b = delete_middle_linkedlist(b )
+a = create_linked_list([1,2,3,4])
+b = create_linked_list([1,2,3,4,5])
+a = reverse_linkedlist(a)
+b = reverse_linkedlist(b )
 print_linkedlist(a)
 print_linkedlist(b)

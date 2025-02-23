@@ -24,7 +24,7 @@ def create_linked_list(arr):
 
 def print_linkedlist(head):
     while head:
-        print(head.data, end=" ")
+        print(head.data, end="->")
         head = head.next
     print()
 
