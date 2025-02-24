@@ -1,7 +1,7 @@
 # Topic: Object Oriented Programming using Python.
 
 # Task 1: Creating a Class (Abstraction)..
-from abc import ABC,abstractproperty
+from abc import ABC, abstractmethod
 class Person(ABC):
     def __init__(self, name, age, gender, address):
         self.name = name
@@ -14,10 +14,10 @@ class Person(ABC):
     def greet(self):
         return f"Hello {self.name}! My name is Jane..."
 
-    @abstractproperty
+    @abstractmethod
     def introduce(self):
         pass
-
+    @staticmethod
     def is_adult(self):
         return self.age>18
 
@@ -55,8 +55,9 @@ class Employee(Person):
       def getter(self):
           return self.__employee_id
 
-      def counter(self):
-          return self.count
+      @classmethod
+      def counter(cls):
+          return cls.count
 
       def getter_salary(self):
           return self._salary
@@ -88,7 +89,7 @@ class Teacher(Employee, Person):
         super().__init__(name, age,gender,address,employee_id, salary)
         self.count += 1
         self.__teacher_id = teacher_id
-        self.subjects = subjects
+        self.subjects = subjects if subjects else []
 
     def __del__(self):
         self.count -=1
@@ -100,10 +101,18 @@ class Teacher(Employee, Person):
     def counter(self):
         return self.count
 
+    @property
+    def employee_id(self):
+        raise AttributeError(f"{self.__class__.__name__} object has no attribute 'employee_id'.")
+
     def add_subject(self, sub):
         self.subjects.append(sub)
-
     def remove_subject(self, sub):
         self.subjects.remove(sub)
+
     def introduce(self):
         return f"Teacher is is: {self.__teacher_id}, the subjects are: {self.subjects}"
+
+
+teacher = Teacher("Bob", 40, "Male", "456 Avenue, City", "EMP01", 60000, "TEC01", ["Math", "Science"])
+print(teacher.introduce())
