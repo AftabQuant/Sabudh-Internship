@@ -1,4 +1,5 @@
 import requests
+from bs4 import BeautifulSoup
 
 def fetchAndSaveFile(url, path):
     req = requests.get(url)
@@ -7,4 +8,21 @@ def fetchAndSaveFile(url, path):
 
 url = "https://www.flipkart.com/mobile-phones-store?otracker=nmenu_sub_Electronics_0_Mobiles"
 
-fetchAndSaveFile(url, r"D:\Ultimate Programming\Sabudh Internship\Web Scraping\Scraping 2\flipkart.html")
+req = requests.get(url)
+print(req)
+
+soup = BeautifulSoup(req.content, 'html.parser')
+print(soup.prettify())
+
+title = soup.title.text
+print(title)
+
+all_paragraph = soup.find_all('p')
+for para in all_paragraph:
+    print(para.text, "\n")
+
+import pandas as pd
+
+titles = soup.select("h1, h2, h3")
+for title in titles:
+    print(title.text, "\n")
