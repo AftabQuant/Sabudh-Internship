@@ -9,9 +9,9 @@ def generate_data(m, n, theta):
     y = np.abs(y - noise)
     return x, y, beta
 
-theta = 0.1
-n = 100
-m = 5
+theta = 0.2
+n = 50
+m = 6
 
 X, Y, beta = generate_data(m, n, theta)
 
