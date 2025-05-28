@@ -318,6 +318,13 @@ values
 
 -- SQL Challenges
 
+alter table customers
+add column full_name varchar(30) not null;
+
+update customers
+set customers.full_name = concat(first_name, " ", last_name);
+
+
 -- 1. Display all products that cost more than $500 and have at least 50 items in stock, sorted by price from highest to lowest.
 select * from products where
 price > 500 and stock_quantity >= 50
@@ -352,9 +359,29 @@ on customers.customer_id = orders.customer_id
 group by customers.first_name
 having  total_order is null;
 
+-- 7. Display the top 5 customers who have spent the most money on purchases, showing their name and total amount spent. 
+select customers.full_name, sum(orders.total_amount) as total_amount from customers
+join orders
+on customers.customer_id = orders.customer_id
+group by customers.full_name
+order by total_amount desc limit 5;
 
+-- 8. For each product, show its name, price, and the average rating it has received.
+select products.product_name, products.price, avg(reviews.rating) as avg_rating from products
+left join
+reviews 
+on products.product_id = reviews.product_id
+group by products.product_name, products.price
+order by avg_rating desc;
 
+-- 9. Find all products that were ordered in February 2024, along with the customers who ordered them. 
+select customers.full_name, products.product_name, orders.order_date from products
+join orderitems
+on products.product_id = orderitems.product_id
+join orders
+on orderitems.order_id = orders.order_id
+join customers
+on customers.customer_id = orders.customer_id
+where year(orders.order_date) = '2024' and month(orders.order_date) = 2;
 
-
-
-
+-- List all employees along with their direct manager's name (if they have one). 
