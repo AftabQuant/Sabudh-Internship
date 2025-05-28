@@ -290,7 +290,31 @@ values
 (406, 'Winter Clearance', 'Clearing inventory for new products', 30.00, '2024-02-01', '2024-02-28',false),
 (407, 'Spring Tech Fest', 'Discounts on latest technology products', 12.00, '2024-03-15', '2024-04-15',true);
 
-
+-- Insert data into ProductPromotions table
+insert into productPromotions (product_id, promotion_id)
+values
+(101, 402), -- UltraBook Pro in Back to School promotion
+(102, 401), -- SmartPhone X in Summer Sale
+(103, 401), -- Noise Cancelling Headphones in Summer Sale
+(104, 403), -- Gaming Console Pro in Black Friday
+(105, 401), -- Smart Watch in Summer Sale
+(106, 402), -- Bluetooth Speaker in Back to School
+(107, 403), -- Desktop Computer in Black Friday
+(108, 404), -- Tablet Pro in Holiday Season
+(109, 402), -- Wireless Gaming Mouse in Back to School
+(110, 404), -- Coffee Maker in Holiday Season
+(111, 405), -- Microwave Oven in New Year Sale
+(112, 403), -- Gaming Keyboard in Black Friday
+(113, 402), -- Wireless Earbuds in Back to School
+(114, 401), -- External Hard Drive in Summer Sale
+(115, 404), -- Smartphone Y in Holiday Season
+(116, 405), -- Ultra HD Monitor in New Year Sale
+(118, 406), -- Gaming Headset in Winter Clearance
+(119, 406), -- Wireless Router in Winter Clearance
+(120, 407), -- Portable Power Bank in Spring Tech Fest(101, 407), -- UltraBook Pro in Spring Tech Fest
+(102, 407), -- SmartPhone X in Spring Tech Fest
+(103, 407), -- Noise Cancelling Headphones in Spring Tech Fest
+(104, 407); -- Gaming Console Pro in Spring Tech Fest
 
 
 
