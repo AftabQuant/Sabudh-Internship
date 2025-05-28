@@ -316,10 +316,41 @@ values
 (103, 407), -- Noise Cancelling Headphones in Spring Tech Fest
 (104, 407); -- Gaming Console Pro in Spring Tech Fest
 
+-- SQL Challenges
 
+-- 1. Display all products that cost more than $500 and have at least 50 items in stock, sorted by price from highest to lowest.
+select * from products where
+price > 500 and stock_quantity >= 50
+order by price desc;
 
+-- 2. Find all customers who have registered in 2023 and have more than 200 loyalty points. Show their full name as a single column, email, and city. 
+select concat(first_name, " ", last_name) as full_name, email, city from customers
+where year(registration_date) = '2023' and loyalty_points > 200;
 
+-- 3. Update the loyalty points for customers in Texas by adding 50 points to their current total.
+SET SQL_SAFE_UPDATES = 0;
+update customers 
+set loyalty_points = loyalty_points + 50;
 
+select * from customers;
+
+-- 4. Create a query to identify products that need restocking (stock_quantity less than 30).
+select product_name, stock_quantity from products 
+where products.stock_quantity <= 30;
+
+-- 5. Calculate the average price of products in each category, but only include categories where the average price is greater than $200. 
+select productcategories.category_name, avg(products.price) as avg_price from productcategories
+join products
+on productcategories.category_id = products.category_id
+group by productcategories.category_name
+having avg_price >= 200;
+
+-- 6. Find all customers who haven't placed any orders yet.
+select customers.first_name, count(orders.order_id) as total_order from customers
+left join orders
+on customers.customer_id = orders.customer_id
+group by customers.first_name
+having  total_order is null;
 
 
 
