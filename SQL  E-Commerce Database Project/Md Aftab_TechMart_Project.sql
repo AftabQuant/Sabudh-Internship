@@ -379,9 +379,27 @@ select customers.full_name, products.product_name, orders.order_date from produc
 join orderitems
 on products.product_id = orderitems.product_id
 join orders
-on orderitems.order_id = orders.order_id
+on orderitems.order_id = orders.order_id                                                                                                                                                                           
 join customers
 on customers.customer_id = orders.customer_id
 where year(orders.order_date) = '2024' and month(orders.order_date) = 2;
 
--- List all employees along with their direct manager's name (if they have one). 
+-- 10. List all employees along with their direct manager's name (if they have one). 
+select concat(employees.first_name, " ", employess.last_name) from employees
+where count(employees.manager_id) > 0;
+
+-- 11. Find all products that have never been reviewed by any customer.
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
