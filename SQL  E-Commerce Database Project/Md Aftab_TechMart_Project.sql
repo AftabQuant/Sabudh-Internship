@@ -440,8 +440,19 @@ join orders on orderitems.order_id = orders.order_id
 group by productcategories.category_name
 order by total_order desc limit 1;
 
+alter table employees
+add column full_name varchar(50) not null;
+
+update employees
+set full_name = concat(employees.first_name , " " , employees.last_name);
+
 -- 18. Identify the employees who earn a salary higher than the average salary of their department.
- 
+select e1.full_name as full_name, e1.salary from employees as e1
+where e1.salary > ( select avg(e2.salary) as avg_salary 
+from employees as e2 
+where e1.department = e2.department);
+
+-- 19. Calculate the percentage of reviews that are 4 stars or higher for each product that has at least 2 reviews. 
 
 
 
