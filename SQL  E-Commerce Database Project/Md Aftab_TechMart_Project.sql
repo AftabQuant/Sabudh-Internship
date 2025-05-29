@@ -447,23 +447,101 @@ update employees
 set full_name = concat(employees.first_name , " " , employees.last_name);
 
 -- 18. Identify the employees who earn a salary higher than the average salary of their department.
-select e1.full_name as full_name, e1.salary from employees as e1
-where e1.salary > ( select avg(e2.salary) as avg_salary 
+select e1.full_name as full_name, e1.salary 
+from employees as e1
+where e1.salary > 
+( select avg(e2.salary) as avg_salary 
 from employees as e2 
 where e1.department = e2.department);
 
 -- 19. Calculate the percentage of reviews that are 4 stars or higher for each product that has at least 2 reviews. 
+select products.product_name, count(*) as total_rating,
+sum(case when reviews.rating >= 4 then 1 else 0 end) as high_rating,
+round(100.0 * sum(case when reviews.rating >= 4 then 1 else 0 end) / count(*), 2) as rating_percentage
+from products
+left join reviews 
+	on products.product_id = reviews.product_id
+group by products.product_name
+having count(*) >= 2;
 
+-- 20. Find the average order value for each payment method, and include the number of orders placed with each method 
+select orders.payment_method, avg(orders.total_amount) as avg_order_value, count(orders.order_id) as total_order
+from orders
+group by orders.payment_method;
 
+-- 21. Create a query to analyze which day of the week has the highest number of orders.
+select dayname(orders.order_date) as day_name, count(*) as total_order from orders
+group by day_name 
+order by total_order desc;
 
+-- 22. Generate a report showing the quarterly sales trends for 2023, broken down by product category. 
+select 
+	pc.category_name as category, 
+	quarter(o.order_date) as quater,
+	sum(oi.quantity * oi.unit_price) as total_sales
+from products p
+join productcategories pc 
+	on pc.category_id = p.category_id
+join orderitems oi 
+	on oi.product_id = p.product_id
+join orders o 
+	on o.order_id = oi.order_id
+where year(o.order_date) = 2023
+group by pc.category_name, quater
+order by pc.category_name, quater;
 
+-- 23. Create a view that displays a summary of each customer's purchase history, including their most purchased category and total spend. 
+create view customer_purchase_summary as
+select
+    c.customer_id,
+    c.full_name as customer_name,
+    (
+        select pc.category_name from orderitems oi2
+        join orders o2 on o2.order_id = oi2.order_id
+        join products p2 on p2.product_id = oi2.product_id
+        join productcategories pc on pc.category_id = p2.category_id
+        where o2.customer_id = c.customer_id
+        group by pc.category_name
+        order by sum(oi2.quantity) desc limit 1
+    ) as most_purchased_category,
+    sum(oi.quantity * oi.unit_price) as total_spend
+from 
+    customers c
+join 
+    orders o on o.customer_id = c.customer_id
+join 
+    orderitems oi on oi.order_id = o.order_id
+join 
+    products p on p.product_id = oi.product_id
+group by 
+    c.customer_id, c.full_name;
 
+-- 24. Calculate the employee hierarchy depth, showing each employee's level in the organization (CEO being level 1). 
+with recursive employee_levels as (
+    select employee_id, full_name, manager_id, 1 as level 
+    from employees
+    where manager_id is null
 
+    union all
 
+    -- Recursive step: find direct reports and increment level
+    select 
+        e.employee_id, e.full_name, e.manager_id, el.level + 1 as level from employees e
+    join employee_levels el on e.manager_id = el.employee_id
+)
 
+select employees.employee_id, employees.full_name, manager_id, level
+from employee_levels
+order by level, employee_id;
 
-
-
+-- 25. Analyze the correlation between product price and customer review ratings. Do more expensive products tend to get higher ratings?
+select p.product_id,  p.product_name as product_name, p.price, avg(r.rating) as avg_rating, 
+count(r.review_id) as total_reviews from products p
+join reviews r 
+	on p.product_id = r.product_id
+group by p.product_id, p.product_name, p.price
+having  total_reviews >= 2 
+order by price; 
 
 
 
