@@ -389,6 +389,65 @@ select concat(employees.first_name, " ", employess.last_name) from employees
 where count(employees.manager_id) > 0;
 
 -- 11. Find all products that have never been reviewed by any customer.
+select products.product_id, products.product_name, count(reviews.review_id) as review from products
+left join reviews
+on products.product_id = reviews.product_id
+group by products.product_id, products.product_name
+having review = 0;
+
+-- 12. Identify customers who have purchased products from at least 3 different product categories.
+select customers.full_name, count(productcategories.category_id) as category from customers
+left join orders on customers.customer_id = orders.customer_id
+join orderitems on orders.order_id = orderitems.order_id
+join products on orderitems.product_id = products.product_id
+join productcategories on products.category_id = productcategories.category_id
+group by customers.full_name
+having   category >= 3
+order by category desc;
+
+-- 13. Find all products that are not currently part of any active promotion.
+select products.product_id, products.product_name, promotions.is_active from products
+left join productpromotions
+on products.product_id = productpromotions.product_id
+join promotions
+on productpromotions.promotion_id = promotions.promotion_id
+where promotions.is_active = 0; 
+
+-- 14. List customers who have purchased the same product more than once across different orders.
+select customers.full_name, count(distinct orders.order_id) as total_order from customers
+join orders on customers.customer_id = orders.customer_id
+group by customers.full_name
+having total_order >=1
+order by total_order desc;
+
+-- 15. Find departments with more than 3 employees, showing the department name and the number of employees.  
+select employees.department, count(employees.employee_id) as total_employee from employees
+group by employees.department
+having total_employee >= 3
+order by total_employee desc;
+
+-- 16. Calculate the total revenue generated for each month in 2023, sorted chronologically.
+select monthname(orders.order_date) as month_name, sum(orders.total_amount) as revenue from orders
+where year(orders.order_date) = '2023'
+group by month(orders.order_date), month_name
+order by month(orders.order_date);
+ 
+-- 17. Find the most popular product category based on the number of orders placed.
+select productcategories.category_name, count(orders.order_id) as total_order from productcategories
+left join products on productcategories.category_id = products.category_id
+join orderitems on orderitems.product_id = products.product_id
+join orders on orderitems.order_id = orders.order_id
+group by productcategories.category_name
+order by total_order desc limit 1;
+
+-- 18. Identify the employees who earn a salary higher than the average salary of their department.
+ 
+
+
+
+
+
+
 
 
 
