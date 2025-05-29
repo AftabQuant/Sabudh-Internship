@@ -12,6 +12,7 @@ zip_code varchar(20),
 registration_date datetime default current_timestamp, loyalty_points int default 0
 );
 
+
 -- Product Category Table
 create table productCategories (
 category_id int primary key,
@@ -20,6 +21,7 @@ description text,
 parent_category_id int,
 foreign key (parent_category_id) references productCategories(category_id)
 );
+
 
 -- Products Table
 create table products(
@@ -34,6 +36,7 @@ release_date date,
 is_active boolean default true,
 foreign key (category_id) references productCategories(category_id)
 ); 
+
 
 -- Orders table
 create table orders (
@@ -50,6 +53,7 @@ payment_method varchar(50),
 foreign key (customer_id) references customers(customer_id)
 );
 
+
 -- Order Items table 
 create table orderItems (
 order_item_id int primary key,
@@ -61,6 +65,7 @@ discount decimal(10, 2) default 0.00,
 foreign key (order_id) references orders(order_id),
 foreign key (product_id) references products(product_id)
 );
+
 
 -- Employees table
 create table employees (
@@ -77,6 +82,7 @@ salary decimal(10, 2),
 foreign key (manager_id) references employees(employee_id)
 );
 
+
 -- Reviews table
 create table reviews (
 review_id int primary key,
@@ -89,6 +95,7 @@ foreign key (product_id) references products(product_id),
 foreign key (customer_id) references customers(customer_id)
 );
 
+
 -- Promotions table
 create table promotions (
 promotion_id int primary key,
@@ -100,6 +107,7 @@ end_date date not null,
 is_active boolean default true
 );
 
+
 -- Product Promotions mapping 
 create table productPromotions (
 product_id int,
@@ -108,6 +116,7 @@ primary key (product_id, promotion_id),
 foreign key (product_id) references products(product_id),
 foreign key (promotion_id) references promotions(promotion_id)
 );
+
 
 -- Insert data into Customers table
 insert into customers (customer_id, first_name, last_name, email, phone,
@@ -126,6 +135,7 @@ values
 (11, 'David', 'Anderson', 'david.a@email.com', '555-321-7654', '808 Cypress St', 'San Francisco', 'CA','94101', '2024-01-10', 220),
 (12, 'Mia', 'Taylor', 'mia.t@email.com', '555-432-8765', '909 Redwood Dr', 'Atlanta', 'GA', '30301','2024-02-05', 180);
 
+
 -- Insert data into ProductCategories table
 insert into productCategories (category_id, category_name, description,
 parent_category_id)
@@ -138,6 +148,7 @@ values
 (7, 'PC Gaming', 'PC gaming hardware and accessories', 5),
 (8, 'Home Appliances', 'Household electronic appliances', null),
 (9, 'Kitchen', 'Kitchen appliances and equipment', 8);
+
 
 -- Insert data into Products table
 insert into products (product_id, product_name, description, category_id,
@@ -164,6 +175,7 @@ values
 (119, 'Wireless Router', 'High-speed dual-band wireless router', 1, 129.99, 50, 'NetConnect','2024-02-12', true),
 (120, 'Portable Power Bank', '20000mAh fast charging power bank', 3, 49.99, 80, 'PowerTech','2024-03-20', true);
 
+
 -- Insert data into Orders table
 insert into orders (order_id, customer_id, order_date, total_amount,
 shipping_address, shipping_city, shipping_state, shipping_zip_code,
@@ -189,6 +201,7 @@ values
 (1018, 1, '2024-02-20 09:55:00', 349.99, '123 Main St', 'Austin', 'TX', '78701', 'Processing', 'Credit Card'),
 (1019, 4, '2024-03-08 12:30:00', 279.98, '101 Pine Rd', 'New York', 'NY', '10001', 'Pending', 'PayPal'),
 (1020, 6, '2024-03-25 14:20:00', 549.98, '303 Birch Ln', 'Miami', 'FL', '33101', 'Pending', 'Credit Card');
+
 
 -- Insert data into OrderItems table
 insert into orderItems (order_item_id, order_id, product_id, quantity, unit_price, discount)
@@ -236,6 +249,7 @@ values
 (2041, 1020, 104, 1, 499.99, 0.00),
 (2042, 1020, 120, 1, 49.99, 0.00);
 
+
 -- Insert data into Employees table
 insert into employees (employee_id, first_name, last_name, email, phone, hire_date, job_title, department, manager_id, salary)
 values
@@ -254,6 +268,7 @@ values
 (513, 'Christopher', 'Lee', 'christopher.l@techmart.com', '555-333-5555', '2023-01-15', 'HR Specialist','HR', 507, 65000.00),
 (514, 'Nicole', 'Harris', 'nicole.h@techmart.com', '555-444-6666', '2023-02-20', 'IT Support', 'IT', 504,60000.00),
 (515, 'Brian', 'Young', 'brian.y@techmart.com', '555-555-7777', '2023-03-18', 'Sales Representative','Sales', 505, 65000.00);
+
 
 -- Insert data into Reviews table
 insert into reviews (review_id, product_id, customer_id, rating, comment, review_date)
@@ -279,6 +294,7 @@ values
 (3019, 113, 2, 4, 'Sound quality is great, battery life could be better', '2024-03-10 14:50:00'),
 (3020, 116, 4, 5, 'Amazing display quality, perfect for my graphic design work', '2024-03-28 11:05:00');
 
+
 -- Insert data into Promotions table
 insert into promotions (promotion_id, promotion_name, description, discount_percentage, start_date, end_date, is_active)
 values
@@ -289,6 +305,7 @@ values
 (405, 'New Year Sale', 'Start the year with savings', 15.00, '2024-01-01', '2024-01-15', false),
 (406, 'Winter Clearance', 'Clearing inventory for new products', 30.00, '2024-02-01', '2024-02-28',false),
 (407, 'Spring Tech Fest', 'Discounts on latest technology products', 12.00, '2024-03-15', '2024-04-15',true);
+
 
 -- Insert data into ProductPromotions table
 insert into productPromotions (product_id, promotion_id)
@@ -316,6 +333,7 @@ values
 (103, 407), -- Noise Cancelling Headphones in Spring Tech Fest
 (104, 407); -- Gaming Console Pro in Spring Tech Fest
 
+
 -- SQL Challenges
 
 alter table customers
@@ -330,9 +348,11 @@ select * from products where
 price > 500 and stock_quantity >= 50
 order by price desc;
 
+
 -- 2. Find all customers who have registered in 2023 and have more than 200 loyalty points. Show their full name as a single column, email, and city. 
 select concat(first_name, " ", last_name) as full_name, email, city from customers
 where year(registration_date) = '2023' and loyalty_points > 200;
+
 
 -- 3. Update the loyalty points for customers in Texas by adding 50 points to their current total.
 SET SQL_SAFE_UPDATES = 0;
@@ -341,9 +361,11 @@ set loyalty_points = loyalty_points + 50;
 
 select * from customers;
 
+
 -- 4. Create a query to identify products that need restocking (stock_quantity less than 30).
 select product_name, stock_quantity from products 
 where products.stock_quantity <= 30;
+
 
 -- 5. Calculate the average price of products in each category, but only include categories where the average price is greater than $200. 
 select productcategories.category_name, avg(products.price) as avg_price from productcategories
@@ -352,12 +374,14 @@ on productcategories.category_id = products.category_id
 group by productcategories.category_name
 having avg_price >= 200;
 
+
 -- 6. Find all customers who haven't placed any orders yet.
 select customers.first_name, count(orders.order_id) as total_order from customers
 left join orders
 on customers.customer_id = orders.customer_id
 group by customers.first_name
 having  total_order is null;
+
 
 -- 7. Display the top 5 customers who have spent the most money on purchases, showing their name and total amount spent. 
 select customers.full_name, sum(orders.total_amount) as total_amount from customers
@@ -366,6 +390,7 @@ on customers.customer_id = orders.customer_id
 group by customers.full_name
 order by total_amount desc limit 5;
 
+
 -- 8. For each product, show its name, price, and the average rating it has received.
 select products.product_name, products.price, avg(reviews.rating) as avg_rating from products
 left join
@@ -373,6 +398,7 @@ reviews
 on products.product_id = reviews.product_id
 group by products.product_name, products.price
 order by avg_rating desc;
+
 
 -- 9. Find all products that were ordered in February 2024, along with the customers who ordered them. 
 select customers.full_name, products.product_name, orders.order_date from products
@@ -384,9 +410,11 @@ join customers
 on customers.customer_id = orders.customer_id
 where year(orders.order_date) = '2024' and month(orders.order_date) = 2;
 
+
 -- 10. List all employees along with their direct manager's name (if they have one). 
 select concat(employees.first_name, " ", employess.last_name) from employees
 where count(employees.manager_id) > 0;
+
 
 -- 11. Find all products that have never been reviewed by any customer.
 select products.product_id, products.product_name, count(reviews.review_id) as review from products
@@ -394,6 +422,7 @@ left join reviews
 on products.product_id = reviews.product_id
 group by products.product_id, products.product_name
 having review = 0;
+
 
 -- 12. Identify customers who have purchased products from at least 3 different product categories.
 select customers.full_name, count(productcategories.category_id) as category from customers
@@ -405,6 +434,7 @@ group by customers.full_name
 having   category >= 3
 order by category desc;
 
+
 -- 13. Find all products that are not currently part of any active promotion.
 select products.product_id, products.product_name, promotions.is_active from products
 left join productpromotions
@@ -413,6 +443,7 @@ join promotions
 on productpromotions.promotion_id = promotions.promotion_id
 where promotions.is_active = 0; 
 
+
 -- 14. List customers who have purchased the same product more than once across different orders.
 select customers.full_name, count(distinct orders.order_id) as total_order from customers
 join orders on customers.customer_id = orders.customer_id
@@ -420,17 +451,20 @@ group by customers.full_name
 having total_order >=1
 order by total_order desc;
 
+
 -- 15. Find departments with more than 3 employees, showing the department name and the number of employees.  
 select employees.department, count(employees.employee_id) as total_employee from employees
 group by employees.department
 having total_employee >= 3
 order by total_employee desc;
 
+
 -- 16. Calculate the total revenue generated for each month in 2023, sorted chronologically.
 select monthname(orders.order_date) as month_name, sum(orders.total_amount) as revenue from orders
 where year(orders.order_date) = '2023'
 group by month(orders.order_date), month_name
 order by month(orders.order_date);
+ 
  
 -- 17. Find the most popular product category based on the number of orders placed.
 select productcategories.category_name, count(orders.order_id) as total_order from productcategories
@@ -446,6 +480,7 @@ add column full_name varchar(50) not null;
 update employees
 set full_name = concat(employees.first_name , " " , employees.last_name);
 
+
 -- 18. Identify the employees who earn a salary higher than the average salary of their department.
 select e1.full_name as full_name, e1.salary 
 from employees as e1
@@ -453,6 +488,7 @@ where e1.salary >
 ( select avg(e2.salary) as avg_salary 
 from employees as e2 
 where e1.department = e2.department);
+
 
 -- 19. Calculate the percentage of reviews that are 4 stars or higher for each product that has at least 2 reviews. 
 select products.product_name, count(*) as total_rating,
@@ -464,15 +500,18 @@ left join reviews
 group by products.product_name
 having count(*) >= 2;
 
+
 -- 20. Find the average order value for each payment method, and include the number of orders placed with each method 
 select orders.payment_method, avg(orders.total_amount) as avg_order_value, count(orders.order_id) as total_order
 from orders
 group by orders.payment_method;
 
+
 -- 21. Create a query to analyze which day of the week has the highest number of orders.
 select dayname(orders.order_date) as day_name, count(*) as total_order from orders
 group by day_name 
 order by total_order desc;
+
 
 -- 22. Generate a report showing the quarterly sales trends for 2023, broken down by product category. 
 select 
@@ -489,6 +528,7 @@ join orders o
 where year(o.order_date) = 2023
 group by pc.category_name, quater
 order by pc.category_name, quater;
+
 
 -- 23. Create a view that displays a summary of each customer's purchase history, including their most purchased category and total spend. 
 create view customer_purchase_summary as
@@ -516,6 +556,7 @@ join
 group by 
     c.customer_id, c.full_name;
 
+
 -- 24. Calculate the employee hierarchy depth, showing each employee's level in the organization (CEO being level 1). 
 with recursive employee_levels as (
     select employee_id, full_name, manager_id, 1 as level 
@@ -533,6 +574,7 @@ with recursive employee_levels as (
 select employees.employee_id, employees.full_name, manager_id, level
 from employee_levels
 order by level, employee_id;
+
 
 -- 25. Analyze the correlation between product price and customer review ratings. Do more expensive products tend to get higher ratings?
 select p.product_id,  p.product_name as product_name, p.price, avg(r.rating) as avg_rating, 
