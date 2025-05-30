@@ -335,6 +335,7 @@ values
 
 
 -- SQL Challenges
+SET SQL_SAFE_UPDATES = 0;
 
 alter table customers
 add column full_name varchar(30) not null;
@@ -355,7 +356,6 @@ where year(registration_date) = '2023' and loyalty_points > 200;
 
 
 -- 3. Update the loyalty points for customers in Texas by adding 50 points to their current total.
-SET SQL_SAFE_UPDATES = 0;
 update customers 
 set loyalty_points = loyalty_points + 50;
 
