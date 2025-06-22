@@ -7,6 +7,6 @@ def count_consistent_strings(allow, words):
             if char not in allowed_set:
                 flag = False
                 break
-        if flag:
+        if flag:          
             count += 1
     return count
